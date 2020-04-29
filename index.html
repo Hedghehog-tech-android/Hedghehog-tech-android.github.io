@@ -1,42 +1,3 @@
-<h2>Вызов методов activity, fragment со стороны</h2>
-
-<ul>
-<li><p>В случае, если мы собираемся вызвать метод activity/fragment из сторонних классов, не относящихся к UI, то нам стоит переосмыслить свои действия. Это явно нарушает архитектурные принципы в android приложении. </p>
-</li>
-<li><p>В случае, если мы собираемся вызвать метод activity из fragment, то следует использовать принцип, описанный в <b>Вызов parent Activity из фрагмента</b></p>
-</li>
-<li><p>В случае, если мы собираемся вызвать метод fragment из activity, то нам надо решить, привязан ли этот метод к конкретному fragment, или схожий метод есть в других fragment. 
-Если метод только в одном fragment, то можно вызвать его напрямую. </p>
-</li>
-</ul>
-<h5 id="-">Пример:</h5>
-<pre><code class="lang-kotlin">        val currentFragment = supportFragmentManager.findFragmentById(<span class="hljs-type">R</span>.id.fl_container)
-        if(currentFragment is <span class="hljs-type">FirstFragment</span>){
-            currentFragment.doSomething()
-        }
-</code></pre>
-<p>Если метод вызывается в нескольких активити, к примеру, навигационных, то следует создать interface и вынести туда этот метод</p>
-<h5 id="-">Пример:</h5>
-<pre><code class="lang-kotlin">        val currentFragment = supportFragmentManager.findFragmentById(<span class="hljs-type">R</span>.id.fl_container)
-        if(currentFragment is <span class="hljs-type">TitledFragment</span>){
-            currentFragment.getTitle()
-        }
-</code></pre>
-<h4 id="-classcastexception">Объяснение: В противном случае мы сталкиваемся с дублированием кода или рискуем поймать ClassCastException</h4>
-
-
-<h2>Вызов parent Activity из фрагмента</h2>
-
-<p>Плохой вариант:
-<code>MainActivity.getInstance()</code></p>
-<p>Хороший вариант:
-<code>(activity as MainActivity).doSomething()</code></p>
-<h3 id="-">Объяснение:</h3>
-<p>В первом случае нам приходится хранить instance родительской Activity в статичном Companion, что может вызвать утечки памяти.</p>
-<h5 id="-">Внимание:</h5>
-<p>Если у вас используется не Single Activity паттерн разработки, то могут быть ситуации, когда ваш фрагмент вызывает метод, которого нет в родительском activity. В таких ситуациях стоит быть осторожным.</p>
-
-
 <h2>AppBar</h2>
 
 <p><em>как его мать вашу добавить в мое приложение</em></p>
@@ -53,3 +14,7 @@
 </ul>
 <p>Для работы с action можно сетить в меню helperы
 <a href="https://developer.android.com/training/appbar/action-views?hl=ru">https://developer.android.com/training/appbar/action-views?hl=ru</a></p>
+
+
+
+<h1>Custom Views</h1>
