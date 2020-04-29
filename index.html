@@ -23,3 +23,17 @@
         }
 </code></pre>
 <h4 id="-classcastexception">Объяснение: В противном случае мы сталкиваемся с дублированием кода или рискуем поймать ClassCastException</h4>
+
+
+<h3>Вызов parent Activity из фрагмента</h3>
+
+<p>Плохой вариант:
+<code>MainActivity.getInstance()</code></p>
+<p>Хороший вариант:
+<code>(activity as MainActivity).doSomething()</code></p>
+<h3 id="-">Объяснение:</h3>
+<p>В первом случае нам приходится хранить instance родительской Activity в статичном Companion, что может вызвать утечки памяти.</p>
+<h5 id="-">Внимание:</h5>
+<p>Если у вас используется не Single Activity паттерн разработки, то могут быть ситуации, когда ваш фрагмент вызывает метод, которого нет в родительском activity. В таких ситуациях стоит быть осторожным.</p>
+<p>Дополнительная информация:
+<a href="https://gitlab.com/almanach/codestule/-/wikis/%D0%92%D1%8B%D0%B7%D0%BE%D0%B2-%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D0%BE%D0%B2-activity,-fragment-%D1%81%D0%BE-%D1%81%D1%82%D0%BE%D1%80%D0%BE%D0%BD%D1%8B">Вызов методов activity, fragment со стороны</a></p>
