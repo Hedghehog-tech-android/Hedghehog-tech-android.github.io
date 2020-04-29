@@ -1,7 +1,23 @@
-<!DOCTYPE html>
-<html>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
-</body>
-</html>
+<ul>
+<li><p>В случае, если мы собираемся вызвать метод activity/fragment из сторонних классов, не относящихся к UI, то нам стоит переосмыслить свои действия. Это явно нарушает архитектурные принципы в android приложении. </p>
+</li>
+<li><p>В случае, если мы собираемся вызвать метод activity из fragment, то следует использовать принцип, описанный в  <a href="https://gitlab.com/almanach/codestule/-/wikis/%D0%92%D1%8B%D0%B7%D0%BE%D0%B2-parent-Activity-%D0%B8%D0%B7-%D1%84%D1%80%D0%B0%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%D0%B0">Вызов parent Activity из фрагмента</a></p>
+</li>
+<li><p>В случае, если мы собираемся вызвать метод fragment из activity, то нам надо решить, привязан ли этот метод к конкретному fragment, или схожий метод есть в других fragment. 
+Если метод только в одном fragment, то можно вызвать его напрямую. </p>
+</li>
+</ul>
+<h5 id="-">Пример:</h5>
+<pre><code class="lang-kotlin">        val currentFragment = supportFragmentManager.findFragmentById(<span class="hljs-type">R</span>.id.fl_container)
+        if(currentFragment is <span class="hljs-type">FirstFragment</span>){
+            currentFragment.doSomething()
+        }
+</code></pre>
+<p>Если метод вызывается в нескольких активити, к примеру, навигационных, то следует создать interface и вынести туда этот метод</p>
+<h5 id="-">Пример:</h5>
+<pre><code class="lang-kotlin">        val currentFragment = supportFragmentManager.findFragmentById(<span class="hljs-type">R</span>.id.fl_container)
+        if(currentFragment is <span class="hljs-type">TitledFragment</span>){
+            currentFragment.getTitle()
+        }
+</code></pre>
+<h4 id="-classcastexception">Объяснение: В противном случае мы сталкиваемся с дублированием кода или рискуем поймать ClassCastException</h4>
